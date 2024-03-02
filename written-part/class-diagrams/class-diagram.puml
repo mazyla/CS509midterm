@@ -1,0 +1,49 @@
+@startuml Customer Account
+class Account {
+    -accountId: int
+    -name: String
+    -password: String
+    +login(): Account
+}
+
+class CustomerAccount extends Account {
+    -name: String
+    -balance: double
+
+    +deposit(amount: double): void
+    +withdraw(amount: double): boolean
+    +getBalance(): double
+
+    +viewBalance(): double
+}
+
+class AdministratorAccount extends Account {
+    +createAccount(customerInfo: String): CustomerAccount
+    +deleteAccount(accountId: int): boolean
+    +updateAccount(accountId: int, newDetails: String): boolean
+    +searchAccount(accountId: int): CustomerAccount
+}
+
+class Transaction {
+    -transactionId: int
+    -date: Date
+    -type: String
+    -amount: double
+    +execute(): boolean
+}
+
+class Withdraw extends Transaction {
+    +execute(): boolean
+}
+
+class Deposit extends Transaction {
+    +execute(): boolean
+}
+
+Account -- "*" Transaction : performs
+
+class ATM {
+    +identifyUser(username: String, password: String): Account
+    +logoutUser(): void
+}
+@enduml
