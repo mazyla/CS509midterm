@@ -1,13 +1,17 @@
 package com.cs509.atm;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class CustomerAccount extends Account {
     private TransactionService transactionService;
 
     private double balance;
 
-    // Adjusted constructor to include TransactionService
-    public CustomerAccount(int accountId, TransactionService transactionService) {
-        super(accountId);
+    @Autowired
+    public CustomerAccount(TransactionService transactionService) {
+        super();
         this.transactionService = transactionService;
     }
 

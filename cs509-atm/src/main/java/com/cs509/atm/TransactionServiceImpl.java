@@ -1,5 +1,8 @@
 package com.cs509.atm;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class TransactionServiceImpl implements TransactionService {
     @Override
     public boolean executeTransaction(Transaction transaction) {

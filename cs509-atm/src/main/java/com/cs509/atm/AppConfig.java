@@ -12,7 +12,7 @@ public class AppConfig {
     }
 
     @Bean
-    public CustomerAccount customerAccount(Integer accountId) {
-        return new CustomerAccount(accountId, transactionService());
+    public CustomerAccount customerAccount(String accountId) {
+        return new CustomerAccount(transactionService());
     }
 }
