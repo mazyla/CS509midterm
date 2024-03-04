@@ -42,8 +42,37 @@ class Deposit extends Transaction {
 
 Account -- "*" Transaction : performs
 
-class ATM {
-    +identifyUser(username: String, password: String): Account
-    +logoutUser(): void
+class AccountService {
+    +login(username: String, password: String): Account
+    +createAccount(accountDetails: Account): Account
+    +deleteAccount(accountId: int): void
+    +updateAccount(accountId: int, account: Account): Account
+    +findAccountById(accountId: int): Account
 }
+
+class TransactionService {
+    +createTransaction(accountId: int, type: String, amount: double): Transaction
+    +getTransactionsForAccount(accountId: int): List<Transaction>
+}
+
+class AccountRepository {
+    +save(account: Account): Account
+    +deleteById(accountId: int): void
+    +findById(accountId: int): Optional<Account>
+    +findAll(): List<Account>
+}
+
+class TransactionRepository {
+    +save(transaction: Transaction): Transaction
+    +findByAccountId(accountId: int): List<Transaction>
+}
+
+AccountService ..> AccountRepository : uses
+TransactionService ..> TransactionRepository : uses
+
+class ATM {
+}
+
+ATM ..> AccountService: uses
+ATM ..> TransactionService: uses
 @enduml
