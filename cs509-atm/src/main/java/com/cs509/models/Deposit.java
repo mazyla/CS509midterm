@@ -1,13 +1,12 @@
 package com.cs509.models;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("DEPOSIT")
 public class Deposit extends Transaction {
     public Deposit(double amount) {
-        super("DEPOSIT", amount);
-    }
-
-    @Override
-    public boolean execute() {
-        // Logic to execute a deposit
-        return true;
+        super(amount);
     }
 }

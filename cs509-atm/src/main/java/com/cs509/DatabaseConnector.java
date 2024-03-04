@@ -1,4 +1,4 @@
-package com.cs509.atm;
+package com.cs509;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -2,47 +2,40 @@ package com.cs509.models;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transactionId;
 
-    private Date date;
-    private String type;
+    private Date transactionDate;
     private double amount;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    public Transaction(String type, double amount) {
-        this.type = type;
+    public Transaction(double amount) {
         this.amount = amount;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public double getAmount() {
         return amount;
     }
 
-    public abstract boolean execute();
-
     public void setAccount(Account account) {
         this.account = account;
     }
 
     public void setTransactionDate(Date date) {
-        this.date = date;
+        this.transactionDate = date;
+    }
+
+    public Date getTransactionDate() {
+        return this.transactionDate;
     }
 }

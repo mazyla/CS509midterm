@@ -1,19 +1,12 @@
 package com.cs509.models;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.cs509.exceptions.AccountNotFoundException;
-import com.cs509.repositories.AccountRepository;
+import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "account_type", discriminatorType = DiscriminatorType.STRING)
 public class Account {
     @Id
     private String accountId;
@@ -21,43 +14,49 @@ public class Account {
     private String password;
     private double balance;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
+
     @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    @Column(insertable = false, updatable = false)
+    private AccountType account_type;
 
     public AccountType getAccountType() {
-        return this.accountType;
+        return this.account_type;
     }
 
     public String getAccountId() {
         return this.accountId;
     }
 
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
     public Account() {
     }
 
-    // public static Account login(String accountId, String password) throws
-    // Exception {
-    // Account account = accountRepository.findByUsernameAndPassword(accountId,
-    // password);
-    // if (account != null) {
-    // // Assuming AccountType is an enum in Account class
-    // switch (account.getAccountType()) {
-    // case CUSTOMER:
-    // // Ensure CustomerAccount extends Account and matches the constructor
-    // CustomerAccount customerAccount = new CustomerAccount();
-    // return customerAccount;
-    // case ADMINISTRATOR:
-    // // Ensure AdministratorAccount extends Account and matches the constructor
-    // return new AdministratorAccount();
-    // default:
-    // throw new AccountNotFoundException("Unknown account type");
-    // }
-    // } else {
-    // throw new AccountNotFoundException("Authentication failed");
-    // }
-    // }
-
-    public void AddBalance(double amount) {
-        this.balance += amount;
+    public void setBalance(double amount) {
+        this.balance = amount;
     }
 }
