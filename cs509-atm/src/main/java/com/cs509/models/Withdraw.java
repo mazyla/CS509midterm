@@ -1,7 +1,7 @@
-package com.cs509.atm;
+package com.cs509.models;
 
 public class Withdraw extends Transaction {
-    public Withdraw(int transactionId, String date, double amount) {
+    public Withdraw(double amount) {
         super("WITHDRAW", amount);
     }
 
