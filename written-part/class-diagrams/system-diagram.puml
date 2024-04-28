@@ -1,79 +1,24 @@
 @startuml
-!define Rectangle class
-
-package "ATM System" {
-    Rectangle Account <<Entity>> {
-        -String accountId;
-        +String name;
-        -String password;
-        -double balance;
-    }
-
-    Rectangle AccountType <<Entity>> {
-    }
-
-    Rectangle AdministratorAccount <<Entity>> extends Account {
-    }
-
-    Rectangle CustomerAccount <<Entity>> extends Account {
-        +Double balance
-    }
-
-    Rectangle Transaction <<Entity>> {
-        -Integer transactionId;
-        -Date transactionDate;
-        -double amount;
-    }
-
-    Rectangle TransactionType <<Entity>> {
-    }
-
-    Rectangle Withdraw <<Entity>> extends Transaction {
-    }
-
-    Rectangle Deposit <<Entity>> extends Transaction {
-    }
-
-    Rectangle AccountRepository <<Repository>> {
-        +save(account: Account): Account
-        +deleteById(id: Integer): void
-        +findById(id: Integer): Optional<Account>
-    }
-
-    Rectangle TransactionRepository <<Repository>> {
-        +save(transaction: Transaction): Transaction
-        +findByAccountId(accountId: Integer): List<Transaction>
-    }
-
-    Rectangle AccountService <<Service>> {
-        +login(username: String, password: String): Account
-        +createAccount(username: String, name: String, password: String, balance: double): Account
-        +deleteAccount(id: Integer): void
-        +updateAccount(account: Account): Account
-        +findById(accountId: String): Account
-    }
-
-    Rectangle TransactionService <<Service>> {
-        +createTransaction(account: Account, type: TransactionType, amount: Double): Transaction
-    }
-
-    Rectangle DatabaseConnector <<Module>> {
-        +getConnection(): Connection
-    }
-
-    Rectangle ConsoleApp <<Module>> {
-        +main(args: String[]): void
-    }
+package "Web Application" {
+    component [ConsoleApp] as Console
+    component [AccountService]
+    component [TransactionService]
 }
 
-Account "1" *-- "*" Transaction : contains >
-Account "1" o-- "*" AccountService : uses >
-Transaction "1" o-- "*" TransactionService : uses >
-AccountService ..> AccountRepository : data access >
-TransactionService ..> TransactionRepository : data access >
-ConsoleApp ..> AccountService : uses >
-ConsoleApp ..> TransactionService : uses >
-DatabaseConnector ..> AccountRepository : connects >
-DatabaseConnector ..> TransactionRepository : connects >
+database "MySQL Database" {
+    [DatabaseConnector]
+}
+
+node "Repository Layer" {
+    [AccountRepository]
+    [TransactionRepository]
+}
+
+[Console] --> [AccountService] : uses
+[Console] --> [TransactionService] : uses
+[AccountService] --> [AccountRepository] : data access
+[TransactionService] --> [TransactionRepository] : data access
+[AccountRepository] --> [DatabaseConnector]
+[TransactionRepository] --> [DatabaseConnector]
 
 @enduml
