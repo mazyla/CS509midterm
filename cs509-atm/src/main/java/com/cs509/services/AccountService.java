@@ -5,7 +5,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cs509.exceptions.AccountNotFoundException;
 import com.cs509.models.Account;
 import com.cs509.models.CustomerAccount;
 import com.cs509.repositories.AccountRepository;
@@ -16,14 +15,14 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Account login(String username, String password) throws AccountNotFoundException {
+    public Account login(String username, String password) throws Exception {
         return accountRepository.findByAccountIdAndPassword(username, password)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found with username: " + username));
+                .orElseThrow(() -> new Exception("Account not found with username: " + username));
     }
 
-    public Account findById(String accountId) throws AccountNotFoundException {
+    public Account findById(String accountId) throws Exception {
         return accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + accountId));
+                .orElseThrow(() -> new Exception("Account not found with id: " + accountId));
     }
 
     public Account createAccount(String username, String name, String password, double balance) {
@@ -42,7 +41,7 @@ public class AccountService {
     }
 
     public void updateAccount(String accountId, String name, String password, double balance)
-            throws AccountNotFoundException {
+            throws Exception {
         Account account = findById(accountId);
         account.setBalance(balance);
         account.setName(name);
