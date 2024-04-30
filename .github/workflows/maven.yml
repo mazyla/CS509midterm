@@ -27,10 +27,10 @@ jobs:
           distribution: "temurin"
           cache: maven
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file cs509-atm/pom.xml
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: target/site/jacoco/
+          path: cs509-atm/target/site/jacoco/
