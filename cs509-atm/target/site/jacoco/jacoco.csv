@@ -1,0 +1,14 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+cs509-atm,com.cs509.services,TransactionService,5,90,1,2,1,16,1,3,0,2
+cs509-atm,com.cs509.services,AccountService,4,98,1,1,1,21,1,8,0,8
+cs509-atm,com.cs509,App,8,0,0,0,3,0,2,0,2,0
+cs509-atm,com.cs509,ConsoleApp,320,0,24,0,94,0,18,0,2,0
+cs509-atm,com.cs509,DatabaseConnector,8,0,0,0,2,0,2,0,2,0
+cs509-atm,com.cs509.models,AccountType,0,15,0,0,0,3,0,1,0,1
+cs509-atm,com.cs509.models,AdministratorAccount,3,0,0,0,2,0,1,0,1,0
+cs509-atm,com.cs509.models,Withdraw,0,5,0,0,0,2,0,1,0,1
+cs509-atm,com.cs509.models,Transaction,0,17,0,0,0,6,0,2,0,2
+cs509-atm,com.cs509.models,Deposit,0,5,0,0,0,2,0,1,0,1
+cs509-atm,com.cs509.models,TransactionType,0,21,0,0,0,2,0,1,0,1
+cs509-atm,com.cs509.models,CustomerAccount,0,3,0,0,0,2,0,1,0,1
+cs509-atm,com.cs509.models,Account,3,31,0,0,1,14,1,9,1,9

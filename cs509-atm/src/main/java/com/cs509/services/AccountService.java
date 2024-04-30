@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cs509.models.Account;
+import com.cs509.models.AccountType;
+import com.cs509.models.AdministratorAccount;
 import com.cs509.models.CustomerAccount;
 import com.cs509.repositories.AccountRepository;
 
@@ -25,9 +27,16 @@ public class AccountService {
                 .orElseThrow(() -> new Exception("Account not found with id: " + accountId));
     }
 
-    public Account createAccount(String username, String name, String password, double balance) {
-        Account account = new CustomerAccount();
-        account.setBalance(balance);
+    public Account createAccount(String username, String name, String password, double balance, AccountType type) {
+
+        Account account;
+        if (type == AccountType.CUSTOMER) {
+            account = new CustomerAccount();
+            account.setBalance(balance);
+        } else {
+            account = new AdministratorAccount();
+        }
+
         account.setAccountId(username);
         account.setName(name);
         account.setPassword(password);

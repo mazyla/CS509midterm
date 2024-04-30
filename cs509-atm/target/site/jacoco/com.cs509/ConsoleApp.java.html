@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConsoleApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">cs509-atm</a> &gt; <a href="index.source.html" class="el_package">com.cs509</a> &gt; <span class="el_source">ConsoleApp.java</span></div><h1>ConsoleApp.java</h1><pre class="source lang-java linenums">package com.cs509;
+
+import java.util.Scanner;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import com.cs509.models.Account;
+import com.cs509.models.AccountType;
+import com.cs509.models.TransactionType;
+import com.cs509.services.AccountService;
+import com.cs509.services.TransactionService;
+
+@Component
+public class ConsoleApp implements CommandLineRunner {
+
+    private final AccountService accountService;
+    private final TransactionService transactionService;
+
+<span class="nc" id="L20">    public ConsoleApp(AccountService accountService, TransactionService transactionService) {</span>
+<span class="nc" id="L21">        this.accountService = accountService;</span>
+<span class="nc" id="L22">        this.transactionService = transactionService;</span>
+<span class="nc" id="L23">    }</span>
+
+    @Override
+    public void run(String... args) throws Exception {
+<span class="nc" id="L27">        Scanner scanner = new Scanner(System.in);</span>
+
+<span class="nc" id="L29">        System.out.println(&quot;Welcome to the ATM System&quot;);</span>
+<span class="nc" id="L30">        System.out.print(&quot;Enter your username: &quot;);</span>
+<span class="nc" id="L31">        String username = scanner.nextLine();</span>
+<span class="nc" id="L32">        System.out.print(&quot;Enter your password: &quot;);</span>
+<span class="nc" id="L33">        String password = scanner.nextLine();</span>
+
+        try {
+<span class="nc" id="L36">            Account account = accountService.login(username, password);</span>
+<span class="nc bnc" id="L37" title="All 3 branches missed.">            switch (account.getAccountType()) {</span>
+                case CUSTOMER:
+<span class="nc" id="L39">                    boolean done = false;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                    while (!done) {</span>
+<span class="nc" id="L41">                        System.out.println(</span>
+                                &quot;Select an option: \n1. Deposit Cash \n2. Withdraw Cash \n3. Check Balance \n4. Exit&quot;);
+<span class="nc" id="L43">                        int choice = scanner.nextInt();</span>
+<span class="nc bnc" id="L44" title="All 5 branches missed.">                        switch (choice) {</span>
+                            case 1:
+                                // Deposit cash
+<span class="nc" id="L47">                                System.out.print(&quot;Enter amount to deposit: &quot;);</span>
+<span class="nc" id="L48">                                double depositAmount = scanner.nextDouble();</span>
+<span class="nc" id="L49">                                scanner.nextLine();</span>
+<span class="nc" id="L50">                                transactionService.createTransaction(account, depositAmount, TransactionType.DEPOSIT);</span>
+<span class="nc" id="L51">                                break;</span>
+                            case 2:
+                                // Withdraw cash
+<span class="nc" id="L54">                                System.out.print(&quot;Enter amount to withdraw: &quot;);</span>
+<span class="nc" id="L55">                                double withdrawAmount = scanner.nextDouble();</span>
+<span class="nc" id="L56">                                scanner.nextLine();</span>
+<span class="nc" id="L57">                                transactionService.createTransaction(account, withdrawAmount, TransactionType.WITHDRAW);</span>
+<span class="nc" id="L58">                                System.out.println(&quot;Withdrawn successfully.&quot;);</span>
+<span class="nc" id="L59">                                break;</span>
+                            case 3:
+                                // Check balance
+<span class="nc" id="L62">                                System.out.println(&quot;Current balance: &quot; + account.getBalance());</span>
+<span class="nc" id="L63">                                break;</span>
+                            case 4:
+                                // Exit
+<span class="nc" id="L66">                                System.out.println(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L67">                                done = true;</span>
+<span class="nc" id="L68">                                break;</span>
+                            default:
+<span class="nc" id="L70">                                System.out.println(&quot;Invalid choice. Please select 1, 2, 3, or 4.&quot;);</span>
+                                break;
+                        }
+<span class="nc" id="L73">                    }</span>
+                    break;
+                case ADMINISTRATOR:
+<span class="nc" id="L76">                    done = false;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                    while (!done) {</span>
+<span class="nc" id="L78">                        System.out.println(</span>
+                                &quot;Select an option: \n1. Create New Account \n2. Delete Existing Account \n3. Update Account Information \n4. Search for Account \n5. Exit&quot;);
+<span class="nc" id="L80">                        int choice = scanner.nextInt();</span>
+<span class="nc" id="L81">                        scanner.nextLine();</span>
+<span class="nc bnc" id="L82" title="All 6 branches missed.">                        switch (choice) {</span>
+                            case 1:
+                                // Create New Account
+<span class="nc" id="L85">                                System.out.print(&quot;Enter account id: &quot;);</span>
+<span class="nc" id="L86">                                String accountIdToCreate = scanner.nextLine();</span>
+<span class="nc" id="L87">                                System.out.print(&quot;Enter account name: &quot;);</span>
+<span class="nc" id="L88">                                String nameToCreate = scanner.nextLine();</span>
+                                String newPassword;
+                                while (true) {
+<span class="nc" id="L91">                                    System.out.print(&quot;Enter account password: &quot;);</span>
+<span class="nc" id="L92">                                    newPassword = scanner.nextLine();</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                                    if (newPassword.length() &gt; 5) {</span>
+<span class="nc" id="L94">                                        break; // Exit loop if password length is greater than 5</span>
+                                    } else {
+<span class="nc" id="L96">                                        System.out.println(</span>
+                                                &quot;Password must be longer than 5 characters. Please try again.&quot;);
+                                    }
+                                }
+<span class="nc" id="L100">                                System.out.print(&quot;Enter account balance: &quot;);</span>
+<span class="nc" id="L101">                                double newBalance = scanner.nextDouble();</span>
+<span class="nc" id="L102">                                scanner.nextLine();</span>
+<span class="nc" id="L103">                                accountService.createAccount(accountIdToCreate, nameToCreate, newPassword, newBalance,</span>
+                                        AccountType.CUSTOMER);
+<span class="nc" id="L105">                                break;</span>
+                            case 2:
+                                // Delete account
+<span class="nc" id="L108">                                System.out.print(&quot;Enter account username: &quot;);</span>
+<span class="nc" id="L109">                                String accountIdToDelete = scanner.nextLine();</span>
+<span class="nc" id="L110">                                Account accountToDelete = accountService.findById(accountIdToDelete);</span>
+<span class="nc" id="L111">                                System.out.print(&quot;If you still want to delete the account of &quot;</span>
+<span class="nc" id="L112">                                        + accountToDelete.getName() + &quot; reenter the account id: &quot;);</span>
+<span class="nc" id="L113">                                String accountIdConfirmation = scanner.nextLine();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                                if (accountIdToDelete.equals(accountIdConfirmation)) {</span>
+<span class="nc" id="L115">                                    accountService.deleteAccount(accountToDelete);</span>
+<span class="nc" id="L116">                                    System.out.println(&quot;Deleted successfully.&quot;);</span>
+                                }
+                                break;
+                            case 3:
+                                // Update Account Information
+<span class="nc" id="L121">                                System.out.print(&quot;Enter account username: &quot;);</span>
+<span class="nc" id="L122">                                String accountIdToUpdate = scanner.nextLine();</span>
+
+<span class="nc" id="L124">                                System.out.print(&quot;Enter new account name: &quot;);</span>
+<span class="nc" id="L125">                                String nameToUpdate = scanner.nextLine();</span>
+                                String passwordToUpdate;
+                                while (true) {
+<span class="nc" id="L128">                                    System.out.print(&quot;Enter account password: &quot;);</span>
+<span class="nc" id="L129">                                    passwordToUpdate = scanner.nextLine();</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                                    if (passwordToUpdate.length() &gt; 5) {</span>
+<span class="nc" id="L131">                                        break; // Exit loop if password length is greater than 5</span>
+                                    } else {
+<span class="nc" id="L133">                                        System.out.println(</span>
+                                                &quot;Password must be longer than 5 characters. Please try again.&quot;);
+                                    }
+                                }
+<span class="nc" id="L137">                                System.out.print(&quot;Enter account balance: &quot;);</span>
+<span class="nc" id="L138">                                double balanceToUpdate = scanner.nextDouble();</span>
+<span class="nc" id="L139">                                scanner.nextLine();</span>
+<span class="nc" id="L140">                                accountService.updateAccount(accountIdToUpdate, nameToUpdate, passwordToUpdate,</span>
+                                        balanceToUpdate);
+<span class="nc" id="L142">                                System.out.println(&quot;Update successful&quot;);</span>
+<span class="nc" id="L143">                                break;</span>
+                            case 4:
+                                // Search For Account
+<span class="nc" id="L146">                                System.out.print(&quot;Enter account username: &quot;);</span>
+<span class="nc" id="L147">                                String accountIdToPull = scanner.nextLine();</span>
+
+<span class="nc" id="L149">                                Account accountToShow = accountService.findById(accountIdToPull);</span>
+<span class="nc" id="L150">                                System.out.print(&quot;account name: &quot; + accountToShow.getName() + &quot;\n&quot;);</span>
+<span class="nc" id="L151">                                System.out.print(&quot;account balance: &quot; + accountToShow.getBalance() + &quot;\n&quot;);</span>
+<span class="nc" id="L152">                                System.out.print(&quot;account password: &quot; + accountToShow.getPassword() + &quot;\n&quot;);</span>
+<span class="nc" id="L153">                                break;</span>
+                            case 5:
+                                // Exit
+<span class="nc" id="L156">                                done = true;</span>
+<span class="nc" id="L157">                                break;</span>
+                            default:
+<span class="nc" id="L159">                                System.out.println(&quot;Invalid choice. Please select 1, 2, 3, or 4.&quot;);</span>
+                                break;
+                        }
+<span class="nc" id="L162">                    }</span>
+                    break;
+                default:
+                    break;
+            }
+
+<span class="nc" id="L168">        } catch (Exception e) {</span>
+            // TODO Auto-generated catch block
+<span class="nc" id="L170">            e.printStackTrace();</span>
+<span class="nc" id="L171">        }</span>
+<span class="nc" id="L172">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

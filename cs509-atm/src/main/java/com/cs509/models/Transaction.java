@@ -25,10 +25,6 @@ public abstract class Transaction {
         this.transactionDate = new Date(); // Capture transaction time at creation
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
     public Date getTransactionDate() {
         return this.transactionDate;
     }
