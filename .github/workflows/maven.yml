@@ -37,10 +37,10 @@ jobs:
           path: cs509-atm/target/site/jacoco/
 
       - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+        run: cd cs509-atm && mvn javadoc:javadoc
 
       - name: Deploy Javadocs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/site/apidocs
+          publish_dir: ./cs509-atm/target/site/apidocs
