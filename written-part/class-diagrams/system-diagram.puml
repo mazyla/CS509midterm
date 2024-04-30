@@ -1,0 +1,24 @@
+@startuml
+package "Web Application" {
+    component [ConsoleApp] as Console
+    component [AccountService]
+    component [TransactionService]
+}
+
+database "MySQL Database" {
+    [DatabaseConnector]
+}
+
+node "Repository Layer" {
+    [AccountRepository]
+    [TransactionRepository]
+}
+
+[Console] --> [AccountService] : uses
+[Console] --> [TransactionService] : uses
+[AccountService] --> [AccountRepository] : data access
+[TransactionService] --> [TransactionRepository] : data access
+[AccountRepository] --> [DatabaseConnector]
+[TransactionRepository] --> [DatabaseConnector]
+
+@enduml

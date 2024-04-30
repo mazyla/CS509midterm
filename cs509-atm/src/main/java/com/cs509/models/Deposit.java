@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("DEPOSIT")
 public class Deposit extends Transaction {
-    public Deposit(double amount) {
-        super(amount);
+    public Deposit(Account account, double amount) {
+        super(account, amount);
     }
 }

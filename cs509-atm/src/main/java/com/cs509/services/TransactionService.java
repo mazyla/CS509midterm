@@ -21,22 +21,20 @@ public class TransactionService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public void createTransaction(Account account, double amount, TransactionType type) {
+    public void createTransaction(Account account, double amount, TransactionType type) throws Exception {
         Transaction transaction = null;
         switch (type) {
             case DEPOSIT:
                 account.setBalance(account.getBalance() + amount);
-                transaction = new Deposit(amount);
+                transaction = new Deposit(account, amount);
                 break;
             case WITHDRAW:
                 account.setBalance(account.getBalance() - amount);
-                transaction = new Withdraw(amount);
+                transaction = new Withdraw(account, amount);
                 break;
             default:
-                break;
+                throw new Exception("That transaction type is not supported");
         }
-        transaction.setAccount(account);
-        transaction.setTransactionDate(new Date());
         accountRepository.save(account);
         transactionRepository.save(transaction);
         System.out.println(type + " successful.");

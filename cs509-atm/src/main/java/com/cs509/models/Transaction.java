@@ -12,27 +12,17 @@ public abstract class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transactionId;
 
-    private Date transactionDate;
-    private double amount;
+    protected final Date transactionDate;
+    protected final double amount;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    protected final Account account;
 
-    public Transaction(double amount) {
-        this.amount = amount;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAccount(Account account) {
+    public Transaction(Account account, double amount) {
         this.account = account;
-    }
-
-    public void setTransactionDate(Date date) {
-        this.transactionDate = date;
+        this.amount = amount;
+        this.transactionDate = new Date(); // Capture transaction time at creation
     }
 
     public Date getTransactionDate() {

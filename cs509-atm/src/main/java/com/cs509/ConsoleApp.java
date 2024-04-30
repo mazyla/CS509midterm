@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.cs509.models.Account;
+import com.cs509.models.AccountType;
 import com.cs509.models.TransactionType;
 import com.cs509.services.AccountService;
 import com.cs509.services.TransactionService;
@@ -99,7 +100,8 @@ public class ConsoleApp implements CommandLineRunner {
                                 System.out.print("Enter account balance: ");
                                 double newBalance = scanner.nextDouble();
                                 scanner.nextLine();
-                                accountService.createAccount(accountIdToCreate, nameToCreate, newPassword, newBalance);
+                                accountService.createAccount(accountIdToCreate, nameToCreate, newPassword, newBalance,
+                                        AccountType.CUSTOMER);
                                 break;
                             case 2:
                                 // Delete account
